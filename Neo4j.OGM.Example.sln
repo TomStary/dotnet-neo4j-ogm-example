@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8C474411-4575-424E-9D07-5F49E0A9E2BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neo4j.OGM.Example", "src\Neo4j.OGM.Example\Neo4j.OGM.Example.csproj", "{8E4ECE21-1496-48DE-A224-CD8A4CB28B67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E4ECE21-1496-48DE-A224-CD8A4CB28B67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E4ECE21-1496-48DE-A224-CD8A4CB28B67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E4ECE21-1496-48DE-A224-CD8A4CB28B67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E4ECE21-1496-48DE-A224-CD8A4CB28B67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8E4ECE21-1496-48DE-A224-CD8A4CB28B67} = {8C474411-4575-424E-9D07-5F49E0A9E2BB}
+	EndGlobalSection
+EndGlobal

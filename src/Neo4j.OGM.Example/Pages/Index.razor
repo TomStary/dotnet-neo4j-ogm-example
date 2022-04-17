@@ -1,0 +1,105 @@
+﻿@page "/"
+@using Neo4j.OGM.Example.Data
+@using Neo4j.OGM
+
+@inject NavigationManager NavigationManager
+@inject SessionFactory sessionFactory
+
+<PageTitle>Example of Neo4j.OGM</PageTitle>
+
+<h1>Example of Neo4j.OGM</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="NavigateToAddForm">
+            Add new person
+        </button>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Created at</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <th><input type="numer" placeholder="id" name="id" class="form-control" @bind-value="@searchId" /></th>
+            <th><input type="text" placeholder="name" name="name" class="form-control" @bind-value="@searchName" /></th>
+            <th></th>
+            <th><button class="btn btn-icon" @onclick="HandleSearch">Search</button></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (persons.Count > 0)
+            {
+                foreach (var person in persons)
+                {
+                    <tr>
+                        <td>@person.Id</td>
+                        <td>@person.Name</td>
+                        <td>@person.CreatedAt</td>
+                        <td><button class="btn btn-icon" @onclick="@(() => HandleEdit(person.Id))">Edit</button></td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4Uka m" align="center">No data.</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Person> persons = new List<Person>();
+
+    private long? searchId = null;
+
+    private string? searchName = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var session = sessionFactory.Create();
+        persons = await session.Set<Person>().ToListAsync();
+    }
+
+    private async Task HandleSearch()
+    {
+        using var session = sessionFactory.Create();
+        if (!string.IsNullOrEmpty(searchName))
+        {
+            persons = await session.Set<Person>()
+            .Where(p => p.Name.Contains(searchName))
+            .ToListAsync();
+        }
+        else if (searchId.HasValue)
+        {
+            persons = await session.Set<Person>()
+            .Where(p => p.Id == searchId)
+            .ToListAsync();
+        }
+        else
+        {
+            persons = await session.Set<Person>().ToListAsync();
+        }
+    }
+
+    private void HandleEdit(long? id)
+    {
+        if (id.HasValue)
+        {
+            NavigationManager.NavigateTo($"/edit/{id.Value}");
+        }
+    }
+
+    private void NavigateToAddForm()
+    {
+        NavigationManager.NavigateTo("/add");
+    }
+}

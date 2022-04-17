@@ -1,0 +1,44 @@
+@page "/edit/{id:long}"
+@using Neo4j.OGM.Example.Data
+
+@inject NavigationManager navigationManager
+@inject SessionFactory sessionFactory
+
+@if (@person == null)
+{
+    <text>Loading...</text>
+}
+else
+{
+    <h1>Edit person: @person.Name </h1>
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <PersonForm Person="@person" HandleValidSubmitAsync="@HandleValidSubmitAsync" />
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public long Id { get; set; }
+
+    private Person? person = new Person();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        using var session = sessionFactory.Create();
+        person = await session.Set<Person>().FindAsync(Id);
+        if (person == null)
+        {
+            navigationManager.NavigateTo("/");
+        }
+    }
+
+    private async Task HandleValidSubmitAsync()
+    {
+        using var session = sessionFactory.Create();
+        await session.SaveAsync(person!);
+        navigationManager.NavigateTo("/");
+    }
+}

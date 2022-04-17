@@ -1,0 +1,24 @@
+@page "/add"
+@using Neo4j.OGM.Example.Data
+
+@inject NavigationManager navigationManager
+@inject SessionFactory sessionFactory
+
+<h1>Create new person</h1>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <PersonForm Person="@person" HandleValidSubmitAsync="@HandleValidSubmitAsync" />
+    </div>
+</div>
+
+@code {
+    private Person person = new Person();
+
+    private async Task HandleValidSubmitAsync()
+    {
+        using var session = sessionFactory.Create();
+        await session.SaveAsync(person);
+        navigationManager.NavigateTo("/");
+    }
+}

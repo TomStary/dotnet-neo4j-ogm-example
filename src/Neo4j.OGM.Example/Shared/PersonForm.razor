@@ -1,0 +1,28 @@
+@using Neo4j.OGM.Example.Data;
+
+<EditForm Model="@Person" OnValidSubmit="@InvokeHandleValidSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <label>
+        Name:
+        <InputText class="form-control" id="name" @bind-Value="@Person.Name" />
+    </label>
+
+    <div class="row justify-content-center pt-3">
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public EventCallback HandleValidSubmitAsync { get; set; }
+
+    [Parameter] public Person? Person { get; set; }
+
+    private async Task InvokeHandleValidSubmitAsync()
+    {
+        await HandleValidSubmitAsync.InvokeAsync();
+    }
+}
